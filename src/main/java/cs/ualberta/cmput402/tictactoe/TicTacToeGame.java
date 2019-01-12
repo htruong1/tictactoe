@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
     private Board board;
+    private boolean play = true;
 
     public TicTacToeGame(){
         board = new Board();
@@ -32,21 +33,41 @@ public class TicTacToeGame {
     public void playGame(){
         Scanner keyboardScanner = new Scanner(System.in);
 
-        while (board.getWinner() == null){
-            board.printBoard();
-            promptNextPlayer();
-            String line = keyboardScanner.nextLine();
-            String input[] = line.split(",");
-            try {
-                board.playMove(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
-            } catch (InvalidMoveException e) {
-                System.out.println("Invalid coordinates. Try again");
+        while (play) {
+            while (board.getWinner() == null){
+                board.printBoard();
                 promptNextPlayer();
+                String line = keyboardScanner.nextLine();
+                String input[] = line.split(",");
+                try {
+                    board.playMove(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
+                } catch (InvalidMoveException e) {
+                    System.out.println("Invalid coordinates. Try again");
+                    promptNextPlayer();
+                }
+            }
+
+            board.printBoard();
+            System.out.println("Player " + board.getWinner() + " has won the game!");
+
+            // Update scoreboard
+            // scoreboard.update(board.getWinner());
+
+            // Ask player to play again
+            System.out.println("Would you like to play again? (y/n)");
+            String line = keyboardScanner.nextLine(); 
+            System.out.println("\n\n"); // to make things pretty!
+
+            if (line.equals("n") ) {
+                play = false;
+                // System.out.println(scoreboard.showScore());
+            }
+            else if (line.equals("y")){
+                board = new Board();
             }
         }
 
-        board.printBoard();
-        System.out.println("Player " + board.getWinner() + " has won the game!");
+        keyboardScanner.close();
     }
 
     public static void main(String args[]){
