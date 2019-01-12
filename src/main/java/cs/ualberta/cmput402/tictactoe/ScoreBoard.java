@@ -34,14 +34,14 @@ public class ScoreBoard {
      * Gets the full scoreboard. 
      * @return a formatted string of all scores.
      */
-    public String showScore() {
-        return String.format(
+    public void printScore() {
+        System.out.print(String.format(
             "Ties:%d\n"+
             "X's wins %d\n"+ 
             "X's losses: %d\n"+ 
             "O's wins: %d\n"+
             "O's losses: %d\n",
             tie, x_win, x_lose, o_win, o_lose
-            );
+            ));
     }
 }

@@ -4,6 +4,8 @@ import cs.ualberta.cmput402.tictactoe.board.Board;
 import cs.ualberta.cmput402.tictactoe.board.Board.Player;
 import cs.ualberta.cmput402.tictactoe.board.exceptions.InvalidMoveException;
 
+import cs.ualberta.cmput402.tictactoe.ScoreBoard;
+
 import java.util.Scanner;
 
 /**
@@ -12,9 +14,11 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
     private Board board;
+    private ScoreBoard scoreboard;
 
     public TicTacToeGame(){
         board = new Board();
+        scoreboard = new ScoreBoard();
     }
 
     public void promptNextPlayer(){
@@ -47,6 +51,9 @@ public class TicTacToeGame {
 
         board.printBoard();
         System.out.println("Player " + board.getWinner() + " has won the game!");
+
+        scoreboard.update(board.getWinner());
+        scoreboard.printScore();
     }
 
     public static void main(String args[]){
