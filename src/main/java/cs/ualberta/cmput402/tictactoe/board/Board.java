@@ -11,6 +11,7 @@ public class Board {
     private Player currentPlayer;
     private Player winner;
     private Player board[][];
+    private boolean isTie;
 
     public Board(){
         board = new Player[3][3];
@@ -43,9 +44,11 @@ public class Board {
             throw new InvalidMoveException(stringBuilder.toString());
         }else{
             board[row][col] = currentPlayer;
-
+            checkTie();
             if (hasWon(row, col))
                 winner = currentPlayer;
+            else if(isTie)
+                winner = Player.NONE;
             else if(currentPlayer == Player.X)
                 currentPlayer = Player.O;
             else
@@ -54,6 +57,21 @@ public class Board {
 
     }
 
+    /*
+        Check whether there is empty spaces left on the board.
+        If not then it is a tie.
+     */
+    private void checkTie(){
+        for(int x = 0; x < 3; x++){
+            for(int y = 0; y < 3; y++){
+                if(board[x][y] == Player.NONE){
+                    isTie = false;
+                    return;
+                }
+            }
+        }
+        isTie = true;
+    }
 
     private boolean isSquareAvailable(int row, int col){
         return (board[row][col] != Player.X && board[row][col] != Player.O);
