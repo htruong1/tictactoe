@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
     private Board board;
+    private boolean play = true;
     private ScoreBoard scoreboard;
 
     public TicTacToeGame(){
@@ -36,28 +37,43 @@ public class TicTacToeGame {
     public void playGame(){
         Scanner keyboardScanner = new Scanner(System.in);
 
-        while (board.getWinner() == null){
-            board.printBoard();
-            promptNextPlayer();
-            String line = keyboardScanner.nextLine();
-            String input[] = line.split(",");
-            try {
-                board.playMove(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
-            } catch (InvalidMoveException e) {
-                System.out.println("Invalid coordinates. Try again");
+        while (play) {
+            while (board.getWinner() == null){
+                board.printBoard();
                 promptNextPlayer();
+                String line = keyboardScanner.nextLine();
+                String input[] = line.split(",");
+                try {
+                    board.playMove(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
+                } catch (InvalidMoveException e) {
+                    System.out.println("Invalid coordinates. Try again");
+                    promptNextPlayer();
+                }
+            }
+
+            if(board.getWinner() == Player.NONE){
+                System.out.println("Game reached a tie!");
+            }else{
+                System.out.println("Player " + board.getWinner() + " has won the game!");
+            }
+
+            scoreboard.update(board.getWinner());
+            
+            // Ask player to play again
+            System.out.println("Would you like to play again? (y/n)");
+            String line = keyboardScanner.nextLine(); 
+            System.out.println("\n\n"); // to make things pretty!
+
+            if (line.equals("n") ) {
+                play = false;
+                scoreboard.printScore();
+            }
+            else if (line.equals("y")){
+                board = new Board();
             }
         }
 
-        if(board.getWinner() == Player.NONE){
-            System.out.println("Game reached a tie!");
-        }else{
-            System.out.println("Player " + board.getWinner() + " has won the game!");
-        }
-
-        scoreboard.update(board.getWinner());
-        scoreboard.printScore();
-        
+        keyboardScanner.close();
     }
 
     public static void main(String args[]){
