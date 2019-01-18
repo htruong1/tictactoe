@@ -14,9 +14,8 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
     private Board board;
-    private Scoreboard scoreboard;
-    
-
+    private Scoreboard scoreboard;    
+	
     public TicTacToeGame(){
         board = new Board();
         scoreboard = new Scoreboard();
@@ -36,28 +35,41 @@ public class TicTacToeGame {
 
     public void playGame(){
         Scanner keyboardScanner = new Scanner(System.in);
+        
+        Boolean play = true;
+        
+		while(play) {
+			while (board.getWinner() == null){
+				board.printBoard();
+				promptNextPlayer();
+				String line = keyboardScanner.nextLine();
+				String input[] = line.split(",");
+				try {
+					board.playMove(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
+				} catch (InvalidMoveException e) {
+					System.out.println("Invalid coordinates. Try again");
+					promptNextPlayer();
+				}
+			}
 
-        while (board.getWinner() == null){
-            board.printBoard();
-            promptNextPlayer();
-            String line = keyboardScanner.nextLine();
-            String input[] = line.split(",");
-            try {
-                board.playMove(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
-            } catch (InvalidMoveException e) {
-                System.out.println("Invalid coordinates. Try again");
-                promptNextPlayer();
-            }
-        }
-
-        board.printBoard();
-        if(board.getWinner() == Player.NONE){
-            System.out.println("Game reached a tie!");
-        }else{
-            System.out.println("Player " + board.getWinner() + " has won the game!");
-        }
-        scoreboard.update(board.getWinner());
-        scoreboard.printScore();
+			board.printBoard();
+			if(board.getWinner() == Player.NONE){
+				System.out.println("Game reached a tie!");
+			}else{
+				System.out.println("Player " + board.getWinner() + " has won the game!");
+			}
+			scoreboard.update(board.getWinner());
+			scoreboard.printScore();
+			
+			System.out.println("\nWould you like to play again? (y/n)");
+			String play_again = keyboardScanner.nextLine();
+			if (play_again.equals("n")) {
+				play = false;
+			}
+			else if (play_again.equals("y")) {
+				board = new Board();
+			}
+		}
         
     }
 
