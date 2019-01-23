@@ -60,15 +60,24 @@ public class TicTacToeGame {
 			}
 			scoreboard.update(board.getWinner());
 			scoreboard.printScore();
-			
-			System.out.println("\nWould you like to play again? (y/n)");
-			String play_again = keyboardScanner.nextLine();
-			if (play_again.equals("n")) {
-				play = false;
-			}
-			else if (play_again.equals("y")) {
-				board = new Board();
-			}
+
+			String play_again = "";
+
+			do {
+				System.out.println("\nWould you like to play again? (y/n)");
+				play_again = keyboardScanner.nextLine();
+
+				if (play_again.equalsIgnoreCase("n")) {
+					play = false;
+				}
+				else if (play_again.equalsIgnoreCase("y")) {
+					board = new Board();
+				}
+				else {
+					System.out.println("Please enter y for yes or n for no.");
+				}
+
+			} while (!(play_again.equalsIgnoreCase("y") || play_again.equalsIgnoreCase("n")));
 		}
         
     }
