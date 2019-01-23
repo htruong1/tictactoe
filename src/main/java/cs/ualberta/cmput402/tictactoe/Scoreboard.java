@@ -8,9 +8,7 @@ import cs.ualberta.cmput402.tictactoe.board.Board.Player;
 public class Scoreboard {
     private int tie = 0;
     private int x_win = 0;
-    private int x_lose = 0;
     private int o_win = 0;
-    private int o_lose = 0;
 
     /**
      * Updates the score counter of the players or tie.
@@ -22,11 +20,9 @@ public class Scoreboard {
         }
         if (winner == Player.X) {
             x_win += 1;
-            o_lose +=1;
         }
         else if (winner == Player.O) {
             o_win += 1;
-            x_lose +=1;
         }
     }
 
@@ -41,7 +37,7 @@ public class Scoreboard {
             "X's losses: %d\n"+ 
             "O's wins: %d\n"+
             "O's losses: %d\n",
-            tie, x_win, x_lose, o_win, o_lose
+            tie, x_win, o_win, o_win, x_win
             ));
     }
 }
